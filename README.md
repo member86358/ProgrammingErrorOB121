@@ -10,3 +10,6 @@
 ![image](https://github.com/user-attachments/assets/d941428c-1b43-4d57-8e5e-4b886621e7ab)
 
 ## Connect the string to a datablock tag and refrence that in you discret alarm.
+
+![image](https://github.com/user-attachments/assets/20b08be7-a4d0-4491-b23f-ea26f4fa7452)
+
