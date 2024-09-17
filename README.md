@@ -4,3 +4,6 @@
 
 ### Use the inout bit for triggering of HMI alarm and the corresponding string
 
+
+
+![image](https://github.com/user-attachments/assets/44fac85b-1be8-4d7f-b9bb-23aa4adf1619)
