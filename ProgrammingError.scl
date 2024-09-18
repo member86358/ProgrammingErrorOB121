@@ -26,49 +26,35 @@ VERSION : 1.0
 
 
 BEGIN
-	//=============================================================================
-	// Company: BluePartner AB 2024
-	//-----------------------------------------------------------------------------
-	// Library:         N/A
-	// Tested with:     N/A
-	// Engineering:     TIA Portal V17
-	// Restrictions:    N/A
-	// Requirements:    OB121
-	// Functionality:   Alarm handling for OB121
-	//                  Make the call for this funcion in OB121
-	//                  After you discret alarm has beet set. You should reset the internal inout bit.
-	//-----------------------------------------------------------------------------
-	// Change log table:
-	// Version  Date        Author              Changes applied
-	// V0.1     2024-09-17  DRA                 First draft
-	
 	CASE #BlockType OF
-	    1:
-	        #"t-block type" := string#'OB';
-	    2:
-	        #"t-block type" := string#'FC';
-	    3:
-	        #"t-block type" := string#'FB';
-	    4:
-	        #"t-block type" := string#'SFC';
-	    5:
-	        #"t-block type" := string#'SFB';
-	    6:
-	        #"t-block type" := string#'DB';
-	    ELSE
-	        #"t-block type" := '';
-	END_CASE;
-	
-	#"t-block nr" := UINT_TO_STRING(#BlockNr);
-	#"t-db nr" := UINT_TO_STRING(#DBNr);
-	
-	IF #BlockNr <> 0 AND #BlockType <> 0 AND #DBNr <> 0 THEN
-	    #"t-error message" := CONCAT_STRING(IN1 := 'Code execution error in: ', IN2 := #"t-block type");
-	    #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := #"t-block nr");
-	    #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := '  ');
-	    #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := 'refrence datablock: ');
-	    #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := #"t-db nr");
-	    #"o-message" := #"t-error message";
-	    #"io-error" := True;
-	END_IF;
+  1:
+    #"t-block type" := string#'OB';
+  2:
+    #"t-block type" := string#'FC';
+  3:
+    #"t-block type" := string#'FB';
+  4:
+    #"t-block type" := string#'SFC';
+  5:
+    #"t-block type" := string#'SFB';
+  6:
+    #"t-block type" := string#'DB';
+  ELSE
+    #"t-block type" := '';
+END_CASE;
+
+#"t-block nr" := DELETE(IN := UINT_TO_STRING(#BlockNr), L := 1, P := 1);
+#"t-db nr" := DELETE(IN := UINT_TO_STRING(#DBNr), L := 1, P := 1);
+
+IF #BlockNr <> 0 AND #BlockType <> 0 THEN
+  #"t-error message" := CONCAT_STRING(IN1 := 'Code execution error in: ', IN2 := #"t-block type");
+  #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := #"t-block nr");
+  #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := ' ');
+  IF #DBNr <> 0 THEN
+    #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := 'accessing datablock: ');
+    #"t-error message" := CONCAT_STRING(IN1 := #"t-error message", IN2 := #"t-db nr");
+  END_IF;
+  #"o-message" := #"t-error message";
+  #"io-error" := True;
+END_IF;
 END_FUNCTION_BLOCK
